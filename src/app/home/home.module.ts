@@ -6,10 +6,6 @@ import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
-import { DepartmentService } from './department.service';
-
-import { CovalentMessageModule } from '@covalent/core';
-import { CovalentDataTableModule } from '@covalent/core';
 
 @NgModule({
   imports: [
@@ -17,15 +13,12 @@ import { CovalentDataTableModule } from '@covalent/core';
     TranslateModule,
     CoreModule,
     SharedModule,
-    HomeRoutingModule,
-    CovalentMessageModule,
-    CovalentDataTableModule
+    HomeRoutingModule
   ],
   declarations: [
     HomeComponent
   ],
   providers: [
-    DepartmentService
   ]
 })
 export class HomeModule { }

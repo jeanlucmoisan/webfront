@@ -1,20 +1,8 @@
-# ngX Starter Kit
+# webfront
 
-Web project starter kit including modern tools and workflow based on
-[angular-cli](https://github.com/angular/angular-cli), best practices from the community, a scalable base template and
-a good learning base.
+Our front-end app connecting various REST APIs to the end user for HRMS PROJECT.
 
-Generated using [ngX-Rocket](https://github.com/ngx-rocket/generator-ngx-rocket).
-
-### Benefits
-
-- Quickstart a project in seconds and focus on features, not on frameworks or tools
-
-- Industrial-grade tools, ready for usage in a continuous integration environment and DevOps
-
-- Scalable architecture with base app template including example components, services and tests
-
-# Getting started
+Based on ngx-rocket starter kit : https://github.com/ngx-rocket
 
 1. Go to project folder and install dependencies:
  ```bash
@@ -77,25 +65,11 @@ The default build environment is `prod`.
 
 Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change
 any of the source files.
-You should not use `ng serve` directly, as it does not use the backend proxy configuration by default.
 
 ## Code scaffolding
 
 Run `npm run generate -- component <name>` to generate a new component. You can also use
 `npm run generate -- directive|pipe|service|class|module`.
-
-If you have installed [angular-cli](https://github.com/angular/angular-cli) globally with `npm install -g @angular/cli`,
-you can also use the command `ng generate` directly.
-
-## Additional tools
-
-Tasks are mostly based on the `angular-cli` tool. Use `ng help` to get more help or go check out the
-[Angular-CLI README](https://github.com/angular/angular-cli).
-
-# What's in the box
-
-The app template is based on [HTML5](http://whatwg.org/html), [TypeScript](http://www.typescriptlang.org) and
-[Sass](http://sass-lang.com). The translation files use the common [JSON](http://www.json.org) format.
 
 #### Tools
 
@@ -117,6 +91,9 @@ Development, build and quality processes are based on [angular-cli](https://gith
 
 - [Angular](https://angular.io)
 - [Bootstrap 4](https://v4-alpha.getbootstrap.com)
+- [Covalent](https://teradata.github.io)
+- [Angular Material](https://material.angular.io)
+- [ngx charts](https://swimlane.github.io/ngx-charts/)
 - [Font Awesome](http://fontawesome.io)
 - [RxJS](http://reactivex.io/rxjs)
 - [ng-bootsrap](https://ng-bootstrap.github.io/)

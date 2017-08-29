@@ -14,6 +14,7 @@ import { CovalentLayoutModule, CovalentStepsModule /*, any other modules */ } fr
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { HomeModule } from './home/home.module';
+import { OrganizationModule } from './organization/organization.module';
 import { AboutModule } from './about/about.module';
 import { LoginModule } from './login/login.module';
 
@@ -30,6 +31,7 @@ import { LoginModule } from './login/login.module';
     CoreModule,
     SharedModule,
     HomeModule,
+    OrganizationModule,
     AboutModule,
     LoginModule,
     AppRoutingModule

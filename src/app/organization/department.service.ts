@@ -6,6 +6,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { Department } from './../models/department.model';
+import { Link } from './../models/link.model';
 
 @Injectable()
 export class DepartmentService {
@@ -18,4 +19,9 @@ export class DepartmentService {
       .catch(() => Observable.of('Error, could not load departments :-('));
   }
 
+  getAllDepartmentLinks(): Observable<Link[]> {
+    return this.http.get('/departmentLinks', { cache: true })
+    .map((res: Response) => res.json())
+    .catch(() => Observable.of('Error, could not load departments links :-('));
+  }
 }

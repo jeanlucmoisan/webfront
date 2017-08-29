@@ -6,24 +6,4 @@
     </h1>
     <app-loader [isLoading]="isLoading">
     </app-loader>
-    <div [hidden]="isLoading">
-      <td-message #message label="Label" sublabel="Sublabel goes here" icon="warning" color="red" [opened]="true">
-          <button td-message-actions md-button>View More</button>
-          <button td-message-actions md-button (click)="message.close()">Close</button>
-          // .. body goes here
-        </td-message>
-      <!--<ul>
-        <li *ngFor="let department of departments">{{department.name}}</li>
-      </ul>
-    -->
-      <td-data-table
-        [data]="departments"
-        [columns]="columns">
-        <ng-template tdDataTableTemplate="type" let-value="value" let-row="row" let-column="column">
-            <div layout="row">
-              <span flex>{{value}}</span>
-            </div>
-          </ng-template>
-      </td-data-table>
-  </div>
 </div>

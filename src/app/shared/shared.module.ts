@@ -17,6 +17,7 @@ import {
   MdTabsModule, MdSelectModule,
 } from '@angular/material';
 import { NgxChartsModule, } from '@swimlane/ngx-charts';
+import { DirectedGraphModule } from './directed-graph/directed-graph.module';
 
 import { LoaderComponent } from './loader/loader.component';
 
@@ -45,6 +46,7 @@ const COVALENT_MODULES: any[] = [
 
 const CHART_MODULES: any[] = [
   NgxChartsModule,
+  DirectedGraphModule
 ];
 
 

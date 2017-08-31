@@ -1,5 +1,5 @@
 {
-  "name": "hrmsProject",
+  "name": "hrmsproject",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -32,6 +32,10 @@
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.25",
     "@ngx-translate/core": "^7.0.0",
     "@swimlane/ngx-charts": "^6.0.2",
+    "@types/d3-selection": "^1.1.0",
+    "@types/d3-shape": "^1.2.1",
+    "@types/d3-transition": "^1.1.0",
+    "@types/dagre": "^0.7.36",
     "bootstrap": "4.0.0-alpha.6",
     "core-js": "^2.4.1",
     "d3": "^4.10.0",

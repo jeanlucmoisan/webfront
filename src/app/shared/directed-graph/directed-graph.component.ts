@@ -10,10 +10,11 @@ import {
   BaseChartComponent, ChartComponent, calculateViewDimensions, ViewDimensions, ColorHelper
 } from '@swimlane/ngx-charts';
 
+import { id } from './id';
 import { select } from 'd3-selection';
+import 'd3-transition';
 import * as shape from 'd3-shape';
 import * as dagre from 'dagre';
-import { id } from '../utils';
 
 @Component({
   selector: 'ngx-charts-directed-graph',
@@ -104,7 +105,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
   @Input() links: any[] = [];
   @Input() activeEntries: any[] = [];
   @Input() orientation: string = 'LR';
-  @Input() curve: any;
+  @Input() curve: any = shape.curveStepBefore;
   @Input() draggingEnabled: boolean = true;
 
   @Input() nodeHeight: number;
@@ -139,7 +140,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
   colors: ColorHelper;
   dims: ViewDimensions;
   margin = [0, 0, 0, 0];
-  results = [];
+  results: any[] = [];
   seriesDomain: any;
   transform: string;
   legendOptions: any;
@@ -152,7 +153,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
   _nodes: any[];
   _links: any[];
   _oldLinks: any[] = [];
-
+  
   @Input() groupResultsBy: (node: any) => string = node => node.label;
 
   /**
@@ -257,28 +258,30 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
       if (!oldLink) {
         oldLink = this._links.find(nl => `${nl.source}${nl.target}` === normKey);
       }
+      if (oldLink) {
+        oldLink.oldLine = oldLink.line;
+  
+        const points = l.points;
+        const line = this.generateLine(points);
+  
+        const newLink = Object.assign({}, oldLink);
+        newLink.line = line;
+        newLink.points = points;
+  
+        const textPos = points[Math.floor(points.length / 2)];
+        if (textPos) {
+          newLink.textTransform = `translate(${textPos.x},${textPos.y})`;
+        }
+  
+        newLink.textAngle = 0;
+        if (!newLink.oldLine) {
+          newLink.oldLine = newLink.line;
+        }
+  
+        this.calcDominantBaseline(newLink);
+        newLinks.push(newLink);
 
-      oldLink.oldLine = oldLink.line;
-
-      const points = l.points;
-      const line = this.generateLine(points);
-
-      const newLink = Object.assign({}, oldLink);
-      newLink.line = line;
-      newLink.points = points;
-
-      const textPos = points[Math.floor(points.length / 2)];
-      if (textPos) {
-        newLink.textTransform = `translate(${textPos.x},${textPos.y})`;
       }
-
-      newLink.textAngle = 0;
-      if (!newLink.oldLine) {
-        newLink.oldLine = newLink.line;
-      }
-
-      this.calcDominantBaseline(newLink);
-      newLinks.push(newLink);
     }
 
     this._links = newLinks;
@@ -380,9 +383,18 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
       this.graph.setNode(node.id, node);
 
       // set view options
-      node.options = {
+/*      node.options = {
         color: this.colors.getColor(this.groupResultsBy(node)),
         transform: `translate( ${node.x - node.width / 2}, ${node.y - node.height / 2})`
+      };
+*/
+      // set view options
+      // https://github.com/swimlane/ngx-charts-dag/issues/20
+      node.options = {
+        color: this.colors.getColor(this.groupResultsBy(node)),
+        transform: node.x && node.y
+          ? `translate( ${node.x - node.width / 2}, ${node.y - node.height / 2})`
+          : 'translate( 0, 0 )'
       };
     }
 
@@ -401,7 +413,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
    *
    * @memberOf DirectedGraphComponent
    */
-  calcDominantBaseline(link): void {
+  calcDominantBaseline(link:any): void {
     const firstPoint = link.points[0];
     const lastPoint = link.points[link.points.length - 1];
     link.oldTextPath = link.textPath;
@@ -425,7 +437,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
    *
    * @memberOf DirectedGraphComponent
    */
-  generateLine(points): any {
+  generateLine(points:any): any {
     const lineFunction = shape.line<any>().x(d => d.x).y(d => d.y).curve(this.curve);
     return lineFunction(points);
   }
@@ -438,7 +450,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
    *
    * @memberOf DirectedGraphComponent
    */
-  onZoom($event: MouseEvent, direction): void {
+  onZoom($event: MouseEvent, direction:any): void {
     if (direction === 'in') {
       this.zoomLevel += this.zoomSpeed;
     } else {
@@ -458,7 +470,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
    *
    * @memberOf DirectedGraphComponent
    */
-  onPan(event): void {
+  onPan(event:any): void {
     this.panOffsetX += event.movementX;
     this.panOffsetY += event.movementY;
     this.updateTransform();
@@ -471,7 +483,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
    *
    * @memberOf DirectedGraphComponent
    */
-  onDrag(event): void {
+  onDrag(event:any): void {
     const node = this.draggingNode;
     node.x += event.movementX / this.zoomLevel;
     node.y += event.movementY / this.zoomLevel;
@@ -523,7 +535,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
    *
    * @memberOf DirectedGraphComponent
    */
-  onClick(event): void {
+  onClick(event:any): void {
     this.select.emit(event);
   }
 
@@ -535,7 +547,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
    *
    * @memberOf DirectedGraphComponent
    */
-  onActivate(event): void {
+  onActivate(event:any): void {
     if (this.activeEntries.indexOf(event) > -1) return;
     this.activeEntries = [event, ...this.activeEntries];
     this.activate.emit({ value: event, entries: this.activeEntries });
@@ -548,7 +560,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
    *
    * @memberOf DirectedGraphComponent
    */
-  onDeactivate(event): void {
+  onDeactivate(event:any): void {
     const idx = this.activeEntries.indexOf(event);
 
     this.activeEntries.splice(idx, 1);
@@ -579,7 +591,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
    *
    * @memberOf DirectedGraphComponent
    */
-  trackLinkBy(index, link): any {
+  trackLinkBy(index:any, link:any): any {
     return link.id;
   }
 
@@ -592,7 +604,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
    *
    * @memberOf DirectedGraphComponent
    */
-  trackNodeBy(index, node): any {
+  trackNodeBy(index:any, node:any): any {
     return node.id;
   }
 

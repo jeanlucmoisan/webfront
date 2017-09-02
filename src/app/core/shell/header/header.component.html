@@ -9,15 +9,15 @@
       <div class="navbar-nav">
         <a class="nav-item nav-link text-uppercase" routerLink="/home" routerLinkActive="active">
           <i class="material-icons md-18">home</i>
-          <span translate>Home</span>
+          <span translate>HEADER.Home</span>
         </a>
         <a class="nav-item nav-link text-uppercase" routerLink="/organization" routerLinkActive="active">
           <i class="material-icons md-18">assessment</i>
-          <span translate>Organization</span>
+          <span translate>HEADER.Organization</span>
         </a>
         <a class="nav-item nav-link text-uppercase" routerLink="/about" routerLinkActive="active">
           <i class="material-icons md-18">place</i>
-          <span translate>About</span>
+          <span translate>HEADER.About</span>
         </a>
       </div>
       <div class="navbar-nav ml-auto">
@@ -35,9 +35,9 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user-dropdown">
             <h6 class="dropdown-header">
-              <span translate>Logged in as</span> <b>{{username}}</b></h6>
+              <span translate>HEADER.Logged in as</span> <b>{{username}}</b></h6>
             <div class="dropdown-divider"></div>
-            <button class="dropdown-item" (click)="logout()" translate>Logout</button>
+            <button class="dropdown-item" (click)="logout()" translate>HEADER.Logout</button>
           </div>
         </div>
       </div>

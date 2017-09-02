@@ -105,7 +105,7 @@ export class DirectedGraphComponent extends BaseChartComponent implements AfterV
   @Input() links: any[] = [];
   @Input() activeEntries: any[] = [];
   @Input() orientation: string = 'LR';
-  @Input() curve: any = shape.curveStepBefore;
+  @Input() curve: any = shape.curveBasis;
   @Input() draggingEnabled: boolean = true;
 
   @Input() nodeHeight: number;

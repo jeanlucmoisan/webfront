@@ -6,7 +6,9 @@ import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 import { OrganizationRoutingModule } from './organization-routing.module';
 import { OrganizationComponent } from './organization.component';
-import { DepartmentService } from './department.service';
+
+import { DepartmentComponent } from './department/department.component';
+import { DepartmentService } from './department/department.service';
 
 import { CovalentMessageModule } from '@covalent/core';
 import { CovalentDataTableModule } from '@covalent/core';
@@ -22,7 +24,8 @@ import { CovalentDataTableModule } from '@covalent/core';
     CovalentDataTableModule
   ],
   declarations: [
-    OrganizationComponent
+    OrganizationComponent,
+    DepartmentComponent
   ],
   providers: [
     DepartmentService

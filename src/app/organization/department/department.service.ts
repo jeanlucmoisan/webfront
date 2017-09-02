@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { Department } from './../models/department.model';
-import { Link } from './../models/link.model';
+import { Department } from './../../models/department.model';
+import { Link } from './../../models/link.model';
 
 @Injectable()
 export class DepartmentService {
@@ -19,8 +19,14 @@ export class DepartmentService {
       .catch(() => Observable.of('Error, could not load departments :-('));
   }
 
-  getAllDepartmentLinks(): Observable<Link[]> {
-    return this.http.get('/departmentLinks', { cache: true })
+  getDepartmentTree(node:string,level:string): Observable<any> {
+    return this.http.get('/department/tree/'+node+'/'+level, { cache: true })
+    .map((res: Response) => res.json())
+    .catch(() => Observable.of('Error, could not load departments links :-('));
+  }
+
+  getTopDepartment(): Observable<Department> {
+    return this.http.get('/department/property/topDepartment/1', { cache: true })
     .map((res: Response) => res.json())
     .catch(() => Observable.of('Error, could not load departments links :-('));
   }

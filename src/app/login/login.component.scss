@@ -7,6 +7,10 @@
   bottom: 0;
   left: 0;
   right: 0;
+  background-image:    url(/assets/home-bg.jpg);
+  background-size:     cover;
+  background-repeat:   no-repeat;
+  background-position: center center;
 }
 
 .login-box {
@@ -16,6 +20,11 @@
   align-items: center;
   width: 100%;
   min-height: 100%;
+  padding-top:20%;
+}
+
+.login-box h1, .login-box h6 {
+  color:white;
 }
 
 .ng-invalid.ng-touched:not(form) {

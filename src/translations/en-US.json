@@ -1,5 +1,7 @@
 {
   "APP_NAME": "HRIS",
+  "GLOBAL.CANCEL":"CANCEL",
+  "GLOBAL.SAVE":"SAVE",
   "HEADER.About": "About",
   "HEADER.Home": "Home",
   "HEADER.Organization":"Organization",
@@ -13,9 +15,14 @@
   "LOGIN.Username or password incorrect.": "Username or password incorrect.",
   "LOGIN.Remember me": "Remember me",
   "ABOUT.Version": "Version",
+  "ORGANIZATION.pagetitle":"Organization",
   "ORGANIZATION.department":"Department",
   "ORGANIZATION.location":"Location",
   "ORGANIZATION.job":"Job",
+  "DEPARTMENT.pagetitle":"Departments",
   "DEPARTMENT.departments":"departments",
-  "DEPARTMENT.Edit department":"Edit department"
+  "DEPARTMENT.Edit department":"Edit department",
+  "DEPARTMENT.departmentNameLabel":"Department name",
+  "DEPARTMENT.departmentNamePH":"Department name",
+  "DEPARTMENT.departmentAttachedToLabel":"Department attached to"
 }

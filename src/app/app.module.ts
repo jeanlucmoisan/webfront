@@ -13,6 +13,10 @@ import { CovalentLayoutModule, CovalentStepsModule /*, any other modules */ } fr
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+
+import { AgmCoreModule } from '@agm/core';
+import APIKey from './../assets/gmapAPIkey.json';
+
 import { HomeModule } from './home/home.module';
 import { OrganizationModule } from './organization/organization.module';
 import { AboutModule } from './about/about.module';
@@ -30,6 +34,9 @@ import { LoginModule } from './login/login.module';
     CovalentStepsModule,
     CoreModule,
     SharedModule,
+    AgmCoreModule.forRoot({
+      apiKey:APIKey.APIKey
+    }),
     HomeModule,
     OrganizationModule,
     AboutModule,

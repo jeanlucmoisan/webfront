@@ -4,10 +4,22 @@ import { Routes, RouterModule } from '@angular/router';
 import { Route } from '../core/route.service';
 import { extract } from '../core/i18n.service';
 import { OrganizationComponent } from './organization.component';
+import { DepartmentComponent } from './department/department.component';
+import { LocationComponent } from './location/location.component';
 
 const routes: Routes = Route.withShell([
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'organization', component: OrganizationComponent, data: { title: extract('Organization') } }
+  { 
+    path: 'organization',
+    component: OrganizationComponent,
+    data: { title: extract('Organization')},
+    children: [
+      { path:'', redirectTo: 'department', pathMatch: 'full'},
+      { path:'department', component:DepartmentComponent},
+      { path:'location', component:LocationComponent},
+
+    ]
+  }
 ]);
 
 @NgModule({

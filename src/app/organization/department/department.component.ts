@@ -1,5 +1,3 @@
-import 'rxjs/add/operator/finally';
-
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -10,7 +8,6 @@ import { Department } from './../../models/department.model';
 import { Link } from './../../models/link.model';
 
 @Component({
-  selector: 'app-department',
   templateUrl: './department.component.html',
   styleUrls: ['./department.component.scss']
 })
@@ -22,7 +19,14 @@ export class DepartmentComponent implements OnInit {
   nodes: any[] = [];
   links: any[] = [];
   topDepartment:any = {};
-  isLoading: boolean;
+
+  // layout
+  tableWidth:Number;
+  editWidth:Number;
+  tableDisplay:Number;
+  editDisplay:Number;
+
+  //dataTable options
   columns: ITdDataTableColumn[] = [
     { name:'name', label:'departments'}
   ];
@@ -50,10 +54,13 @@ export class DepartmentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.tableWidth = 100;
+    this.editWidth = 0;
+    this.tableDisplay = 1;
+    this.editDisplay = 0;
+
     this.columns[0].label = this.translateService.instant('DEPARTMENT.departments');
-    this.isLoading = true;
     this.departmentService.getAllDepartments()
-      .finally(() => { this.isLoading = false; })
       .subscribe((departments:Department[]) => { 
         this.departments = departments;
         this.filter();
@@ -93,7 +100,12 @@ export class DepartmentComponent implements OnInit {
     this.filteredData = newData;
   }
 
-  changeTreeFocus(event:any) {
+  editAndChangeTreeFocus(event:any) {
+    this.tableWidth = 50;
+    this.editWidth = 100;
+    this.tableDisplay = 0;
+    this.editDisplay = 1;
+
     console.log('rowClick event for '+JSON.stringify(event));
     this.getDepartmentTreeByNode(event.row._key,'2');
   }

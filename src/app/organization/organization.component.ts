@@ -1,7 +1,5 @@
-import 'rxjs/add/operator/finally';
-
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-organization',
@@ -11,17 +9,25 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class OrganizationComponent implements OnInit {
 
-  departmentLabel:string;
-  locationLabel: string;
-  jobLabel: string;
+  tabs = [
+    { path:'department', label: ""},
+    { path:'location', label: ""},
+    { path:'job', label: ""}
+  ];
+  departmentTabLabel:string;
+  locationTabLabel:string;
+  jobTabLabel:string;
 
-  constructor(private translateService:TranslateService) {
+  constructor(private translate:TranslateService) {
   }
 
   ngOnInit() {
-    this.departmentLabel = this.translateService.instant('ORGANIZATION.department');
-    this.locationLabel = this.translateService.instant('ORGANIZATION.location');
-    this.jobLabel = this.translateService.instant('ORGANIZATION.job');
+    this.departmentTabLabel = this.translate.instant('ORGANIZATION.department');
+    this.locationTabLabel = this.translate.instant('ORGANIZATION.location');
+    this.jobTabLabel = this.translate.instant('ORGANIZATION.job');
+    this.tabs[0].label = this.departmentTabLabel;
+    this.tabs[1].label = this.locationTabLabel;
+    this.tabs[2].label = this.jobTabLabel;
   }
 
 }

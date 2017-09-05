@@ -5,5 +5,10 @@
 }
 
 .edit-department {
-    width: 50%;
+  width: 0%;
+}
+
+.department-table, .edit-department {
+    height: 400px;
+    transition: opacity 1s ease-in-out;
 }

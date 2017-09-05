@@ -1,23 +1,30 @@
 <div class="container-fluid">
-  <div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
-    <h3>No results to display.</h3>
+  <div class="row">
+    <div class="department-table" [style.width.%]="tableWidth" [style.opacity]="tableDisplay">
+      <td-data-table
+        #dataTable
+        [data]="filteredData"
+        [columns]="columns"
+        [clickable]="true"
+        (rowClick)="editAndChangeTreeFocus($event)">
+        <ng-template tdDataTableTemplate="type" let-value="value" let-row="row" let-column="column">
+          <div layout="row">
+            <span flex>{{value}}</span>
+          </div>
+        </ng-template>
+      </td-data-table>
+      <td-paging-bar #pagingBar [pageSizes]="[5, 10, 15, 20]" [total]="filteredTotal" (change)="page($event)">
+        <span td-paging-bar-label hide-xs>Row per page:</span>
+        {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+      </td-paging-bar>
+    </div>
+    <div class="edit-department" [style.width.%]="editWidth" [style.opacity]="editDisplay">
+      sdfsdfsdfsfs
+      sfdsdfsf
+      sdfsfd
+      sddfhdfgh
+    </div>
   </div>
-  <td-data-table
-    #dataTable
-    [data]="filteredData"
-    [columns]="columns"
-    [clickable]="true"
-    (rowClick)="changeTreeFocus($event)">
-    <ng-template tdDataTableTemplate="type" let-value="value" let-row="row" let-column="column">
-      <div layout="row">
-        <span flex>{{value}}</span>
-      </div>
-    </ng-template>
-  </td-data-table>
-  <td-paging-bar #pagingBar [pageSizes]="[5, 10, 15, 20]" [total]="filteredTotal" (change)="page($event)">
-    <span td-paging-bar-label hide-xs>Row per page:</span>
-    {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
-  </td-paging-bar>
   <ngx-charts-directed-graph
     [scheme]="colorScheme"
     [view]="view"

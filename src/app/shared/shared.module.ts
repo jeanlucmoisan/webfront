@@ -18,7 +18,6 @@ import {
 } from '@angular/material';
 import { NgxChartsModule, } from '@swimlane/ngx-charts';
 import { DirectedGraphModule } from './directed-graph/directed-graph.module';
-
 import { LoaderComponent } from './loader/loader.component';
 
 const FLEX_LAYOUT_MODULES: any[] = [

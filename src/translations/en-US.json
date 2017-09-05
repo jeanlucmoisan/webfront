@@ -1,28 +1,44 @@
 {
   "APP_NAME": "HRIS",
-  "GLOBAL.CANCEL":"CANCEL",
-  "GLOBAL.SAVE":"SAVE",
-  "HEADER.About": "About",
-  "HEADER.Home": "Home",
-  "HEADER.Organization":"Organization",
-  "HEADER.Logged in as": "Logged in as",
-  "HEADER.Logout": "Logout",
-  "LOGIN.Login": "Login",
-  "LOGIN.Password": "Password",
-  "LOGIN.Password is required": "Password is required",
-  "LOGIN.Username": "Username",
-  "LOGIN.Username is required": "Username is required",
-  "LOGIN.Username or password incorrect.": "Username or password incorrect.",
-  "LOGIN.Remember me": "Remember me",
-  "ABOUT.Version": "Version",
-  "ORGANIZATION.pagetitle":"Organization",
-  "ORGANIZATION.department":"Department",
-  "ORGANIZATION.location":"Location",
-  "ORGANIZATION.job":"Job",
-  "DEPARTMENT.pagetitle":"Departments",
-  "DEPARTMENT.departments":"departments",
-  "DEPARTMENT.Edit department":"Edit department",
-  "DEPARTMENT.departmentNameLabel":"Department name",
-  "DEPARTMENT.departmentNamePH":"Department name",
-  "DEPARTMENT.departmentAttachedToLabel":"Department attached to"
+  "GLOBAL":{
+    "CANCEL":"CANCEL",
+    "SAVE":"SAVE"
+  },
+  "HEADER":{
+    "About": "About",
+    "Home": "Home",
+    "Organization":"Organization",
+    "Logged in as": "Logged in as",
+    "Logout": "Logout"
+  },
+  "LOGIN":{
+    "Login": "Login",
+    "Password": "Password",
+    "Password is required": "Password is required",
+    "Username": "Username",
+    "Username is required": "Username is required",
+    "Username or password incorrect.": "Username or password incorrect.",
+    "Remember me": "Remember me"
+  },
+  "ABOUT":{
+    "Version": "Version"
+  },
+  "ORGANIZATION":{
+    "pagetitle":"Organization",
+    "department":"Department",
+    "location":"Location",
+    "job":"Job"
+  },
+  "DEPARTMENT":{
+    "pagetitle":"Departments",
+    "departments":"departments",
+    "Edit department":"Edit department",
+    "departmentNameLabel":"Department name",
+    "departmentNamePH":"Department name",
+    "departmentAttachedToLabel":"Department attached to"
+  },
+  "LOCATION":{
+    "pagetitle":"Locations",
+    "locations":"locations"
+  }
 }

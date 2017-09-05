@@ -1,11 +1,18 @@
 <div class="container-fluid">
-    <md-tab-group class="pad-none">
-      <md-tab flex label="{{departmentLabel}}">
-        <app-department></app-department>
-      </md-tab>
-      <md-tab flex label="{{locationLabel}}">
-      </md-tab>
-      <md-tab flex label="{{jobLabel}}">
-      </md-tab>
-      </md-tab-group>
+  <nav md-tab-nav-bar class="pad-none">
+    <a md-tab-link *ngFor="let tab of tabs"
+      [routerLink]="[tab.path]"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [routerLinkActiveOptions]="{exact:true}"
+      [active]="rla.isActive">
+      {{ tab.label }}
+    </a>
+  </nav>
+
+<!--   <a routerLink="department">{{'ORGANIZATION.department' | translate}}</a>
+  <a routerLink="location">{{'ORGANIZATION.location' | translate}}</a>
+  <a routerLink="job">{{'ORGANIZATION.job' | translate}}</a>
+ -->
+  <router-outlet></router-outlet>
 </div>

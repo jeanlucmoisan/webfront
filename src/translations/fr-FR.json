@@ -1,28 +1,44 @@
 {
   "APP_NAME": "SIRH",
-  "GLOBAL.CANCEL":"ANNULER",
-  "GLOBAL.SAVE":"SAUVER",
-  "HEADER.About": "A propos",
-  "HEADER.Organization":"Organisation",
-  "HEADER.Home": "Accueil",
-  "HEADER.Logged in as": "Connecté en tant que",
-  "HEADER.Logout": "Déconnexion",
-  "LOGIN.Login": "Connexion",
-  "LOGIN.Password": "Mot de passe",
-  "LOGIN.Password is required": "Mot de passe requis",
-  "LOGIN.Username": "Identifiant",
-  "LOGIN.Username is required": "Identifiant requis",
-  "LOGIN.Username or password incorrect.": "Identifiant ou mot de passe incorrect.",
-  "LOGIN.Remember me": "Rester connecté",
-  "ABOUT.Version": "Version",
-  "ORGANIZATION.pagetitle":"Organisation",
-  "ORGANIZATION.department":"Service",
-  "ORGANIZATION.location":"Lieu de travail",
-  "ORGANIZATION.job":"Emploi",
-  "DEPARTMENT.pagetitle":"Services",
-  "DEPARTMENT.departments":"services",
-  "DEPARTMENT.Edit department":"Modifier un service",
-  "DEPARTMENT.departmentNameLabel":"Nom du service",
-  "DEPARTMENT.departmentNamePH":"Nom du service",
-  "DEPARTMENT.departmentAttachedToLabel":"Service rattaché à"
+  "GLOBAL":{
+    "CANCEL":"ANNULER",
+    "SAVE":"SAUVER"
+  },
+  "HEADER":{
+    "About": "A propos",
+    "Home": "Accueil",
+    "Organization":"Organisation",
+    "Logged in as": "Connecté en tant que",
+    "Logout": "Déconnexion"
+  },
+  "LOGIN":{
+    "Login": "Connexion",
+    "Password": "Mot de passe",
+    "Password is required": "Mot de passe requis",
+    "Username": "Identifiant",
+    "Username is required": "Identifiant requis",
+    "Username or password incorrect.": "Identifiant ou mot de passe incorrect.",
+    "Remember me": "Rester connecté"
+  },
+  "ABOUT":{
+    "Version": "Version"
+  },
+  "ORGANIZATION":{
+    "pagetitle":"Organisation",
+    "department":"Service",
+    "location":"Lieu de travail",
+    "job":"Emploi"
+  },
+  "DEPARTMENT":{
+    "pagetitle":"Services",
+    "departments":"services",
+    "Edit department":"Modifier un service",
+    "departmentNameLabel":"Nom du service",
+    "departmentNamePH":"Nom du service",
+    "departmentAttachedToLabel":"Service rattaché à"
+  },
+  "LOCATION":{
+    "pagetitle":"Lieux de travail",
+    "locations":"lieux de travail"
+  }
 }

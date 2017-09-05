@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <td-data-table
+    #dataTable
+    [data]="filteredData"
+    [columns]="columns">
+    <ng-template tdDataTableTemplate="type" let-value="value" let-row="row" let-column="column">
+      <div layout="row">
+        <span flex>{{value}}</span>
+      </div>
+    </ng-template>
+  </td-data-table>
+  <td-paging-bar #pagingBar [pageSizes]="[5, 10, 15, 20]" [total]="filteredTotal" (change)="page($event)">
+    <span td-paging-bar-label hide-xs>Row per page:</span>
+    {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+  </td-paging-bar>
+  <div class="gmap-wrapper" flex>
+    <div class="gmap-container">
+      <agm-map [styles]="mapstyle" [zoom]="2" [longitude]="0" [latitude]="20" [streetViewControl]="false">
+        <agm-marker *ngFor="let position of positions"
+          [latitude]="position.lat"
+          [longitude]="position.lon">
+        </agm-marker>
+      </agm-map>
+    </div>
+  </div>
+</div>

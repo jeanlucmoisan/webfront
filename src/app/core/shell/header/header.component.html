@@ -1,4 +1,24 @@
 <header>
+  <md-sidenav-container>
+    <md-toolbar color="primary">
+      <a class="menu-brand" href="https://github.com/jeanlucmoisan" translate>APP_NAME</a>
+      <a class="text-uppercase" routerLink="/home" routerLinkActive="active">
+        <i class="material-icons md-18">home</i>
+        <span translate>HEADER.Home</span>
+      </a>
+      <a class="text-uppercase" routerLink="/organization" routerLinkActive="active">
+        <i class="material-icons md-18">assessment</i>
+        <span translate>HEADER.Organization</span>
+      </a>
+      <a class="text-uppercase" routerLink="/about" routerLinkActive="active">
+        <i class="material-icons md-18">place</i>
+        <span translate>HEADER.About</span>
+      </a>
+    </md-toolbar>
+  </md-sidenav-container>
+</header>
+
+<!-- <header>
   <nav class="navbar navbar-toggleable-sm navbar-inverse bg-inverse">
     <button class="navbar-toggler navbar-toggler-right" type="button" aria-controls="navbar-menu"
             aria-label="Toggle navigation" (click)="toggleMenu()" [attr.aria-expanded]="!menuHidden">
@@ -44,3 +64,4 @@
     </div>
   </nav>
 </header>
+ -->

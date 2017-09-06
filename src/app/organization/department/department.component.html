@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="department-table" [style.width.%]="tableWidth" [style.opacity]="tableDisplay">
+    <div class="department-table">
       <td-data-table
         #dataTable
         [data]="filteredData"
@@ -17,12 +17,6 @@
         <span td-paging-bar-label hide-xs>Row per page:</span>
         {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
       </td-paging-bar>
-    </div>
-    <div class="edit-department" [style.width.%]="editWidth" [style.opacity]="editDisplay">
-      sdfsdfsdfsfs
-      sfdsdfsf
-      sdfsfd
-      sddfhdfgh
     </div>
   </div>
   <ngx-charts-directed-graph

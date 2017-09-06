@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 import { CoreModule } from '../core/core.module';
@@ -10,6 +12,7 @@ import { HomeComponent } from './home.component';
 @NgModule({
   imports: [
     CommonModule,
+    BrowserAnimationsModule,
     TranslateModule,
     CoreModule,
     SharedModule,

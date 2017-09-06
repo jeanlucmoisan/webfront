@@ -1,14 +1,17 @@
 @import "src/theme/theme-variables";
 
-.navbar {
-  margin-bottom: $spacer;
+header a {
+  text-decoration-line: none;
+  color: white;
+  margin-right: 25px;
+  line-height : 1.5em;
 }
 
-.nav-link.dropdown-toggle {
-  cursor: pointer;
+header a.active {
+  border-bottom: 1px solid;
 }
 
 i.material-icons {
-  vertical-align: top !important;
-  line-height: 1.5em;
+  font-size: 20px;
+  text-anchor: middle;
 }

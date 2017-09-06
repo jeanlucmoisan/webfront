@@ -20,12 +20,6 @@ export class DepartmentComponent implements OnInit {
   links: any[] = [];
   topDepartment:any = {};
 
-  // layout
-  tableWidth:Number;
-  editWidth:Number;
-  tableDisplay:Number;
-  editDisplay:Number;
-
   //dataTable options
   columns: ITdDataTableColumn[] = [
     { name:'name', label:'departments'}
@@ -54,11 +48,6 @@ export class DepartmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tableWidth = 100;
-    this.editWidth = 0;
-    this.tableDisplay = 1;
-    this.editDisplay = 0;
-
     this.columns[0].label = this.translateService.instant('DEPARTMENT.departments');
     this.departmentService.getAllDepartments()
       .subscribe((departments:Department[]) => { 
@@ -101,11 +90,6 @@ export class DepartmentComponent implements OnInit {
   }
 
   editAndChangeTreeFocus(event:any) {
-    this.tableWidth = 50;
-    this.editWidth = 100;
-    this.tableDisplay = 0;
-    this.editDisplay = 1;
-
     console.log('rowClick event for '+JSON.stringify(event));
     this.getDepartmentTreeByNode(event.row._key,'2');
   }

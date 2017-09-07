@@ -1,8 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { SharedModule } from './../../shared/shared.module';
+import { DataSource } from '@angular/cdk/table';
+import { MdPaginator } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-//import { TdDataTableService, ITdDataTableColumn, IPageChangeEvent } from '@covalent/core';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/observable/fromEvent';
 
 import { DepartmentService } from './department.service';
 import { Department } from './../../models/department.model';
@@ -15,22 +25,17 @@ import { Link } from './../../models/link.model';
 
 export class DepartmentComponent implements OnInit {
   
-  departments: Department[] = [];
   deptLinks: Link[] = [];
   nodes: any[] = [];
   links: any[] = [];
   topDepartment:any = {};
-
-  //dataTable options
-/*   columns: ITdDataTableColumn[] = [
-    { name:'name', label:'departments'}
-  ];
- */  filteredData: any[] = this.departments;
-  filteredTotal: number = this.departments.length;
-  currentPage: number = 1;
-  pageSize: number = 5;
-  searchTerm: string = '';
-  fromRow: number = 1;
+  
+  // table var
+  @ViewChild('filter') filter:ElementRef;
+  @ViewChild(MdPaginator) paginator: MdPaginator;
+  departmentDatabase:DepartmentDatabase|null;
+  dataSource: DepartmentDataSource|null;
+  displayedColumns = ['name'];
 
   // graph options
   chartType = 'directed-graph';
@@ -47,54 +52,36 @@ export class DepartmentComponent implements OnInit {
 
   constructor(
     private departmentService: DepartmentService, 
-//    private _dataTableService: TdDataTableService, 
     private translateService:TranslateService, 
     private router:Router,
     private route: ActivatedRoute) {
+      this.departmentDatabase = new DepartmentDatabase(departmentService);
+      this.dataSource = new DepartmentDataSource(this.departmentDatabase, this.paginator);
+      console.log(JSON.stringify(this.dataSource));
   }
 
   ngOnInit() {
-//    this.columns[0].label = this.translateService.instant('DEPARTMENT.departments');
-    this.departmentService.getAllDepartments()
-      .subscribe((departments:Department[]) => { 
-        this.departments = departments;
-//        this.filter();
-      });
-      this.departmentService.getTopDepartment()
-      .first()
-      .subscribe(val => {
-        console.log('Top department is '+JSON.stringify(val));
-        this.topDepartment = val[0];
-        if (this.topDepartment._key) {
-          this.getDepartmentTreeByNode(this.topDepartment._key,'2');
-        }
-      },err=>{
-        console.log('Error retrieving top department '+JSON.stringify(err));
-      });
-  }
-
-/*   page(pagingEvent: IPageChangeEvent): void {
-    this.fromRow = pagingEvent.fromRow;
-    this.currentPage = pagingEvent.page;
-    this.pageSize = pagingEvent.pageSize;
-    this.filter();
-  }
-
-  filter(): void {
-    let newData: any[] = this.departments;
-    let excludedColumns: string[] = this.columns
-    .filter((column: ITdDataTableColumn) => {
-      return ((column.filter === undefined && column.hidden === true) ||
-              (column.filter !== undefined && column.filter === false));
-    }).map((column: ITdDataTableColumn) => {
-      return column.name;
+    Observable.fromEvent(this.filter.nativeElement, 'keyup')
+    .debounceTime(150)
+    .distinctUntilChanged()
+    .subscribe(() => {
+      if (!this.dataSource) { return; }
+      this.dataSource.filter = this.filter.nativeElement.value;
     });
-    newData = this._dataTableService.filterData(newData, this.searchTerm, true, excludedColumns);
-    this.filteredTotal = newData.length;
-    newData = this._dataTableService.pageData(newData, this.fromRow, this.currentPage * this.pageSize);
-    this.filteredData = newData;
+
+    this.departmentService.getTopDepartment()
+    .first()
+    .subscribe(val => {
+      console.log('Top department is '+JSON.stringify(val));
+      this.topDepartment = val[0];
+      if (this.topDepartment._key) {
+        this.getDepartmentTreeByNode(this.topDepartment._key,'2');
+      }
+    },err=>{
+      console.log('Error retrieving top department '+JSON.stringify(err));
+    });
   }
- */
+
   editAndChangeTreeFocus(event:any) {
     //this.router.navigate(['organization',{ outlets: { 'edit-department-outlet':['edit-department',event.row._key]}}]);
     this.router.navigate(['../edit-department',event.row._key], { relativeTo: this.route});
@@ -126,5 +113,65 @@ export class DepartmentComponent implements OnInit {
     err => {
       console.log('Error retrieving department tree '+JSON.stringify(err));
     });
+  }
+}
+
+export class DepartmentDatabase {
+  pageLength: number = 0;  
+  constructor(private departmentService: DepartmentService ) {
+  }
+  // Fill up the database with json response
+  getDepartments(): Observable<Department[]> {
+    return this.departmentService.getAllDepartments().map(this.extractDepartment);
+  }
+
+  extractDepartment(result:any[]):any[] {
+    this.pageLength = result.length;
+    return result.map(_department=> {
+      return {
+        _key: _department._key,
+        name: _department.name
+      }
+    })
+  }
+}
+
+export class DepartmentDataSource extends DataSource<Department> {
+  subject: BehaviorSubject<Department[]> = new BehaviorSubject([]);
+  _filterChange = new BehaviorSubject('');
+  get filter(): string { return this._filterChange.value; }
+  set filter(filter: string) { this._filterChange.next(filter); }
+
+  constructor(private _departmentDatabase: DepartmentDatabase, private _paginator:MdPaginator) {
+    super();
+  }
+
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<Department[]> {
+    const displayDataChanges = [
+      this._filterChange,
+      this._paginator.page
+    ];
+
+    Observable.merge(...displayDataChanges).subscribe((d) => {
+      this._departmentDatabase.getDepartments()
+      .map((departments)=> departments.filter((dept) => {
+        let searchStr = dept.name.toLowerCase();
+        return searchStr.indexOf(this.filter.toLowerCase()) != -1 ;
+      })).subscribe((departments)=>{
+        this.subject.next(departments);
+      })
+    });
+
+    // init
+    if (!this.subject.isStopped)
+      this._departmentDatabase.getDepartments().subscribe((departments)=>this.subject.next(departments));
+
+    return Observable.merge(this.subject);
+  }
+
+  disconnect() {
+    this.subject.complete();
+    this.subject.observers = [];
   }
 }

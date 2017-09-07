@@ -3,19 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { FlexLayoutModule, } from '@angular/flex-layout';
-/* import {
-  CovalentDataTableModule, CovalentMediaModule, CovalentLoadingModule,
-  CovalentNotificationsModule, CovalentLayoutModule, CovalentMenuModule,
-  CovalentPagingModule, CovalentSearchModule, CovalentStepsModule,
-  CovalentCommonModule, CovalentDialogsModule,
-} from '@covalent/core';
- */import {
+import {
   MdButtonModule, MdCardModule, MdIconModule,
   MdListModule, MdMenuModule, MdTooltipModule,
   MdSlideToggleModule, MdInputModule, MdCheckboxModule,
   MdToolbarModule, MdSnackBarModule, MdSidenavModule,
-  MdTabsModule, MdSelectModule, MdIconRegistry
+  MdTabsModule, MdSelectModule, MdTableModule, MdPaginatorModule
 } from '@angular/material';
+import { CdkTableModule } from '@angular/cdk/table';
 import { NgxChartsModule, } from '@swimlane/ngx-charts';
 import { DirectedGraphModule } from './directed-graph/directed-graph.module';
 import { LoaderComponent } from './loader/loader.component';
@@ -33,15 +28,8 @@ const MATERIAL_MODULES: any[] = [
   MdListModule, MdMenuModule, MdTooltipModule,
   MdSlideToggleModule, MdInputModule, MdCheckboxModule,
   MdToolbarModule, MdSnackBarModule, MdSidenavModule,
-  MdTabsModule, MdSelectModule,
+  MdTabsModule, MdSelectModule, MdTableModule, CdkTableModule, MdPaginatorModule
 ];
-
-const COVALENT_MODULES: any[] = [
-/*   CovalentDataTableModule, CovalentMediaModule, CovalentLoadingModule,
-  CovalentNotificationsModule, CovalentLayoutModule, CovalentMenuModule,
-  CovalentPagingModule, CovalentSearchModule, CovalentStepsModule,
-  CovalentCommonModule, CovalentDialogsModule,
- */];
 
 const CHART_MODULES: any[] = [
   NgxChartsModule,
@@ -54,7 +42,6 @@ const CHART_MODULES: any[] = [
     CommonModule,
     ANGULAR_MODULES,
     MATERIAL_MODULES,
-    COVALENT_MODULES,
     CHART_MODULES,
     FLEX_LAYOUT_MODULES
   ],
@@ -64,7 +51,6 @@ const CHART_MODULES: any[] = [
   exports: [
     ANGULAR_MODULES,
     MATERIAL_MODULES,
-    COVALENT_MODULES,
     CHART_MODULES,
     FLEX_LAYOUT_MODULES,
     LoaderComponent

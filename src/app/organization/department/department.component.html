@@ -1,23 +1,27 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="department-table">
-<!--       <td-data-table
-        #dataTable
-        [data]="filteredData"
-        [columns]="columns"
-        [clickable]="true"
-        (rowClick)="editAndChangeTreeFocus($event)">
-        <ng-template tdDataTableTemplate="type" let-value="value" let-row="row" let-column="column">
-          <div layout="row">
-            <span flex>{{value}}</span>
-          </div>
-        </ng-template>
-      </td-data-table>
-      <td-paging-bar #pagingBar [pageSizes]="[5, 10, 15, 20]" [total]="filteredTotal" (change)="page($event)">
-        <span td-paging-bar-label hide-xs>Row per page:</span>
-        {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
-      </td-paging-bar>
- -->    </div>
+    <div class="department-table" mat-elevation-z8>
+      <div class="department-table-header">
+        <md-form-field floatPlaceholder="never">
+          <input mdInput #filter placeholder="filtre service">
+        </md-form-field>
+      </div>
+      <md-table #departmentTable [dataSource]="dataSource">
+        <ng-container mdColumnDef="name">
+          <md-header-cell *mdHeaderCellDef>services</md-header-cell>
+          <md-cell *mdCellDef="let row">{{row.name}}</md-cell>
+        </ng-container>
+        <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+        <md-row *mdRowDef="let row; columns: displayedColumns;"></md-row>
+      </md-table>
+      <md-paginator #paginator 
+            [length]="departmentDatabase.pageLength" 
+            [pageIndex]="0" 
+            [pageSize]="5" 
+            [pageSizeOptions]="[5]"
+            >
+      </md-paginator>
+    </div>
     <router-outlet name="edit-department-outlet"></router-outlet>
   </div>
   <ngx-charts-directed-graph

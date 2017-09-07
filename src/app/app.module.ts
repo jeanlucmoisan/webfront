@@ -4,12 +4,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { CovalentLayoutModule, CovalentStepsModule /*, any other modules */ } from '@covalent/core';
+//import { CovalentLayoutModule, CovalentStepsModule /*, any other modules */ } from '@covalent/core';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -29,9 +28,8 @@ import { LoginModule } from './login/login.module';
     FormsModule,
     HttpModule,
     TranslateModule.forRoot(),
-    NgbModule.forRoot(),
-    CovalentLayoutModule,
-    CovalentStepsModule,
+//    CovalentLayoutModule,
+//    CovalentStepsModule,
     CoreModule,
     SharedModule,
     AgmCoreModule.forRoot({

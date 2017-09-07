@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { TdDataTableService, ITdDataTableColumn, IPageChangeEvent } from '@covalent/core';
+//import { TdDataTableService, ITdDataTableColumn, IPageChangeEvent } from '@covalent/core';
 
 import { LocationService } from './location.service';
 import { Location } from './../../models/location.model';
@@ -20,21 +20,21 @@ export class LocationComponent implements OnInit {
   positions: any[] = [];
 
   // dataTable content
-  columns: ITdDataTableColumn[] = [
+/*   columns: ITdDataTableColumn[] = [
     { name:'name', label:'locations'}
   ];
-  filteredData: any[] = this.locations;
+ */  filteredData: any[] = this.locations;
   filteredTotal: number = this.locations.length;
   currentPage: number = 1;
   pageSize: number = 5;
   searchTerm: string = '';
   fromRow: number = 1;
 
-  constructor(private locationService: LocationService, private _dataTableService: TdDataTableService, private translateService:TranslateService) {
+  constructor(private locationService: LocationService/* , private _dataTableService: TdDataTableService */, private translateService:TranslateService) {
   }
 
   ngOnInit() {
-    this.columns[0].label = this.translateService.instant('LOCATION.locations');
+//    this.columns[0].label = this.translateService.instant('LOCATION.locations');
     this.locationService.getAllLocations()
       .subscribe((locations:Location[]) => { 
         this.locations = locations;
@@ -44,11 +44,11 @@ export class LocationComponent implements OnInit {
             this.positions.push(position);
           }
         });
-        this.filter();
+//        this.filter();
       });
   }
 
-  page(pagingEvent: IPageChangeEvent): void {
+/*   page(pagingEvent: IPageChangeEvent): void {
     this.fromRow = pagingEvent.fromRow;
     this.currentPage = pagingEvent.page;
     this.pageSize = pagingEvent.pageSize;
@@ -69,4 +69,4 @@ export class LocationComponent implements OnInit {
     newData = this._dataTableService.pageData(newData, this.fromRow, this.currentPage * this.pageSize);
     this.filteredData = newData;
   }
-}
+ */}

@@ -3,7 +3,7 @@
  * Framework overrides and customization goes here.
  */
  @import '~@angular/material/theming';
- @import '~@covalent/core/theming/all-theme';
+// @import '~@covalent/core/theming/all-theme';
 
  @include mat-core();
  
@@ -15,4 +15,4 @@
  $theme: mat-light-theme($primary, $accent, $warn);
  
  @include angular-material-theme($theme);
- @include covalent-theme($theme);
+// @include covalent-theme($theme);

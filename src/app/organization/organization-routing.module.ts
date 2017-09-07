@@ -5,6 +5,7 @@ import { Route } from '../core/route.service';
 import { extract } from '../core/i18n.service';
 import { OrganizationComponent } from './organization.component';
 import { DepartmentComponent } from './department/department.component';
+import { EditDepartmentComponent } from './department/edit/edit-department.component';
 import { LocationComponent } from './location/location.component';
 
 const routes: Routes = Route.withShell([
@@ -15,7 +16,9 @@ const routes: Routes = Route.withShell([
     data: { title: extract('Organization')},
     children: [
       { path:'', redirectTo: 'department', pathMatch: 'full'},
-      { path:'department', component:DepartmentComponent},
+      { path:'department', component:DepartmentComponent }, 
+      { path:'edit-department/:id', component: EditDepartmentComponent},
+      //{ path:'edit-department/:id', component: EditDepartmentComponent},
       { path:'location', component:LocationComponent},
 
     ]

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { TdDataTableService, ITdDataTableColumn, IPageChangeEvent } from '@covalent/core';
+//import { TdDataTableService, ITdDataTableColumn, IPageChangeEvent } from '@covalent/core';
 
 import { DepartmentService } from './department.service';
 import { Department } from './../../models/department.model';
@@ -21,10 +22,10 @@ export class DepartmentComponent implements OnInit {
   topDepartment:any = {};
 
   //dataTable options
-  columns: ITdDataTableColumn[] = [
+/*   columns: ITdDataTableColumn[] = [
     { name:'name', label:'departments'}
   ];
-  filteredData: any[] = this.departments;
+ */  filteredData: any[] = this.departments;
   filteredTotal: number = this.departments.length;
   currentPage: number = 1;
   pageSize: number = 5;
@@ -44,15 +45,20 @@ export class DepartmentComponent implements OnInit {
   };
   
 
-  constructor(private departmentService: DepartmentService, private _dataTableService: TdDataTableService, private translateService:TranslateService) {
+  constructor(
+    private departmentService: DepartmentService, 
+//    private _dataTableService: TdDataTableService, 
+    private translateService:TranslateService, 
+    private router:Router,
+    private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.columns[0].label = this.translateService.instant('DEPARTMENT.departments');
+//    this.columns[0].label = this.translateService.instant('DEPARTMENT.departments');
     this.departmentService.getAllDepartments()
       .subscribe((departments:Department[]) => { 
         this.departments = departments;
-        this.filter();
+//        this.filter();
       });
       this.departmentService.getTopDepartment()
       .first()
@@ -67,7 +73,7 @@ export class DepartmentComponent implements OnInit {
       });
   }
 
-  page(pagingEvent: IPageChangeEvent): void {
+/*   page(pagingEvent: IPageChangeEvent): void {
     this.fromRow = pagingEvent.fromRow;
     this.currentPage = pagingEvent.page;
     this.pageSize = pagingEvent.pageSize;
@@ -88,8 +94,10 @@ export class DepartmentComponent implements OnInit {
     newData = this._dataTableService.pageData(newData, this.fromRow, this.currentPage * this.pageSize);
     this.filteredData = newData;
   }
-
+ */
   editAndChangeTreeFocus(event:any) {
+    //this.router.navigate(['organization',{ outlets: { 'edit-department-outlet':['edit-department',event.row._key]}}]);
+    this.router.navigate(['../edit-department',event.row._key], { relativeTo: this.route});
     console.log('rowClick event for '+JSON.stringify(event));
     this.getDepartmentTreeByNode(event.row._key,'2');
   }

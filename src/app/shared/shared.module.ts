@@ -3,18 +3,18 @@ import { CommonModule } from '@angular/common';
 
 import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { FlexLayoutModule, } from '@angular/flex-layout';
-import {
+/* import {
   CovalentDataTableModule, CovalentMediaModule, CovalentLoadingModule,
   CovalentNotificationsModule, CovalentLayoutModule, CovalentMenuModule,
   CovalentPagingModule, CovalentSearchModule, CovalentStepsModule,
   CovalentCommonModule, CovalentDialogsModule,
 } from '@covalent/core';
-import {
+ */import {
   MdButtonModule, MdCardModule, MdIconModule,
   MdListModule, MdMenuModule, MdTooltipModule,
   MdSlideToggleModule, MdInputModule, MdCheckboxModule,
   MdToolbarModule, MdSnackBarModule, MdSidenavModule,
-  MdTabsModule, MdSelectModule,
+  MdTabsModule, MdSelectModule, MdIconRegistry
 } from '@angular/material';
 import { NgxChartsModule, } from '@swimlane/ngx-charts';
 import { DirectedGraphModule } from './directed-graph/directed-graph.module';
@@ -37,11 +37,11 @@ const MATERIAL_MODULES: any[] = [
 ];
 
 const COVALENT_MODULES: any[] = [
-  CovalentDataTableModule, CovalentMediaModule, CovalentLoadingModule,
+/*   CovalentDataTableModule, CovalentMediaModule, CovalentLoadingModule,
   CovalentNotificationsModule, CovalentLayoutModule, CovalentMenuModule,
   CovalentPagingModule, CovalentSearchModule, CovalentStepsModule,
   CovalentCommonModule, CovalentDialogsModule,
-];
+ */];
 
 const CHART_MODULES: any[] = [
   NgxChartsModule,

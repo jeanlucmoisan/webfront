@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="department-table">
-      <td-data-table
+<!--       <td-data-table
         #dataTable
         [data]="filteredData"
         [columns]="columns"
@@ -17,7 +17,8 @@
         <span td-paging-bar-label hide-xs>Row per page:</span>
         {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
       </td-paging-bar>
-    </div>
+ -->    </div>
+    <router-outlet name="edit-department-outlet"></router-outlet>
   </div>
   <ngx-charts-directed-graph
     [scheme]="colorScheme"

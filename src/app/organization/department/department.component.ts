@@ -55,12 +55,12 @@ export class DepartmentComponent implements OnInit {
     private translateService:TranslateService, 
     private router:Router,
     private route: ActivatedRoute) {
-      this.departmentDatabase = new DepartmentDatabase(departmentService);
-      this.dataSource = new DepartmentDataSource(this.departmentDatabase, this.paginator);
-      console.log(JSON.stringify(this.dataSource));
-  }
-
+    }
+    
   ngOnInit() {
+    this.departmentDatabase = new DepartmentDatabase(this.departmentService);
+    this.dataSource = new DepartmentDataSource(this.departmentDatabase, this.paginator);
+
     Observable.fromEvent(this.filter.nativeElement, 'keyup')
     .debounceTime(150)
     .distinctUntilChanged()
@@ -127,6 +127,7 @@ export class DepartmentDatabase {
 
   extractDepartment(result:any[]):any[] {
     this.pageLength = result.length;
+    console.log(this.pageLength);
     return result.map(_department=> {
       return {
         _key: _department._key,
@@ -147,13 +148,17 @@ export class DepartmentDataSource extends DataSource<Department> {
   }
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Department[]> {
+  connect(): Observable<any[]> {
     const displayDataChanges = [
+      this.subject,
       this._filterChange,
       this._paginator.page
     ];
 
+    // TO DO find a way to get page and update data stream like in
+    // https://stackoverflow.com/questions/45014257/how-to-use-md-table-with-services-in-angular-4
     Observable.merge(...displayDataChanges).subscribe((d) => {
+      console.log(JSON.stringify(d));
       this._departmentDatabase.getDepartments()
       .map((departments)=> departments.filter((dept) => {
         let searchStr = dept.name.toLowerCase();

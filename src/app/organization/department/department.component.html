@@ -15,10 +15,10 @@
         <md-row *mdRowDef="let row; columns: displayedColumns;"></md-row>
       </md-table>
       <md-paginator #paginator 
-            [length]="departmentDatabase.pageLength" 
+            [length]="dataLength" 
             [pageIndex]="0" 
             [pageSize]="5" 
-            [pageSizeOptions]="[5,10]"
+            [pageSizeOptions]="[5]"
             >
       </md-paginator>
     </div>

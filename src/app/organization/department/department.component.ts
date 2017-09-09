@@ -8,11 +8,11 @@ import { TranslateService } from '@ngx-translate/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
-import 'rxjs/add/observable/merge';
+//import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/observable/fromEvent';
+//import 'rxjs/add/observable/filter';
 
 import { DepartmentService } from './department.service';
 import { Department } from './../../models/department.model';
@@ -33,7 +33,7 @@ export class DepartmentComponent implements OnInit {
   // table var
   @ViewChild('filter') filter:ElementRef;
   @ViewChild(MdPaginator) paginator: MdPaginator;
-  departmentDatabase:DepartmentDatabase|null;
+  dataLength:Number = 0;
   dataSource: DepartmentDataSource|null;
   displayedColumns = ['name'];
 
@@ -58,8 +58,14 @@ export class DepartmentComponent implements OnInit {
     }
     
   ngOnInit() {
-    this.departmentDatabase = new DepartmentDatabase(this.departmentService);
-    this.dataSource = new DepartmentDataSource(this.departmentDatabase, this.paginator);
+    //this.departmentDatabase = new DepartmentDatabase(this.departmentService);
+    //this.dataSource = new DepartmentDataSource(this.departmentDatabase);
+    const departmentDatabase:DepartmentDatabase = new DepartmentDatabase(this.departmentService);
+    departmentDatabase.getDepartments()
+      .subscribe(departments => {
+        this.dataSource = new DepartmentDataSource(departmentDatabase, this.paginator);
+        this.dataLength = departments.length;
+      })
 
     Observable.fromEvent(this.filter.nativeElement, 'keyup')
     .debounceTime(150)
@@ -67,7 +73,8 @@ export class DepartmentComponent implements OnInit {
     .subscribe(() => {
       if (!this.dataSource) { return; }
       this.dataSource.filter = this.filter.nativeElement.value;
-    });
+      this.paginator.pageIndex = 0;
+  });
 
     this.departmentService.getTopDepartment()
     .first()
@@ -117,17 +124,20 @@ export class DepartmentComponent implements OnInit {
 }
 
 export class DepartmentDatabase {
-  pageLength: number = 0;  
-  constructor(private departmentService: DepartmentService ) {
-  }
-  // Fill up the database with json response
+
+  // stream to emit data changes
+  public dataChange: BehaviorSubject<Department[]> = new BehaviorSubject<Department[]>([]);
+  get data(): Department[] {
+    return this.dataChange.value;
+  };
+
+  // Fill up the local database with simplified json response
   getDepartments(): Observable<Department[]> {
-    return this.departmentService.getAllDepartments().map(this.extractDepartment);
+    return this.departmentService.getAllDepartments()
+      .map(this.extractDepartment);
   }
 
   extractDepartment(result:any[]):any[] {
-    this.pageLength = result.length;
-    console.log(this.pageLength);
     return result.map(_department=> {
       return {
         _key: _department._key,
@@ -135,48 +145,74 @@ export class DepartmentDatabase {
       }
     })
   }
+
+  // data change emission
+  constructor(private departmentService: DepartmentService ) {
+    this.getDepartments().subscribe(data => this.dataChange.next(data));
+  }
+
 }
 
 export class DepartmentDataSource extends DataSource<Department> {
-  subject: BehaviorSubject<Department[]> = new BehaviorSubject([]);
+
   _filterChange = new BehaviorSubject('');
   get filter(): string { return this._filterChange.value; }
   set filter(filter: string) { this._filterChange.next(filter); }
-
+ 
   constructor(private _departmentDatabase: DepartmentDatabase, private _paginator:MdPaginator) {
+  //constructor(private _departmentDatabase: DepartmentDatabase) {
     super();
   }
 
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<any[]> {
+  // Connect function called by the table to retrieve one stream containing the data to render.
+  // dataChange is an observable from database collection
+  connect(): Observable<Department[]> {
     const displayDataChanges = [
-      this.subject,
+      this._departmentDatabase.dataChange,
       this._filterChange,
       this._paginator.page
     ];
 
     // TO DO find a way to get page and update data stream like in
     // https://stackoverflow.com/questions/45014257/how-to-use-md-table-with-services-in-angular-4
-    Observable.merge(...displayDataChanges).subscribe((d) => {
-      console.log(JSON.stringify(d));
-      this._departmentDatabase.getDepartments()
+//    Observable.merge(...displayDataChanges).subscribe((d) => {
+      //console.log(JSON.stringify(d));
+/*       this._departmentDatabase.getDepartments()
       .map((departments)=> departments.filter((dept) => {
         let searchStr = dept.name.toLowerCase();
         return searchStr.indexOf(this.filter.toLowerCase()) != -1 ;
       })).subscribe((departments)=>{
         this.subject.next(departments);
-      })
-    });
+      }) */
+//    });
+
 
     // init
-    if (!this.subject.isStopped)
-      this._departmentDatabase.getDepartments().subscribe((departments)=>this.subject.next(departments));
-
-    return Observable.merge(this.subject);
+    /* if (!this.subject.isStopped)
+      this._departmentDatabase.getDepartments().subscribe((departments)=>{
+        this.length = departments.length;
+        this.subject.next(departments)
+      });
+ */
+    return Observable.merge(...displayDataChanges)                  // convert object to array with spread syntax
+      .map(() => {                                                  // data sent to observables depend on event, rather change in data, click on page...
+      //const dataSlice = this._departmentDatabase.data.slice();      // data removed from viewed table
+      const dataSlice = this._departmentDatabase.data.filter((dept) => {
+        let searchStr = dept.name.toLowerCase();
+        return searchStr.indexOf(this.filter.toLowerCase()) != -1 ;
+      });
+      var startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+      this._paginator.length = dataSlice.length;
+      if (startIndex > dataSlice.length) {
+        startIndex = 0;
+        this._paginator.pageIndex = 0;
+      }
+      return dataSlice.splice(startIndex, this._paginator.pageSize);
+    });
   }
 
   disconnect() {
-    this.subject.complete();
-    this.subject.observers = [];
+    this._filterChange.complete();
+    this._filterChange.observers = [];
   }
 }

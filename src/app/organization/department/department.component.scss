@@ -8,3 +8,11 @@
   width:98vw;
   height: 450px;
 }
+
+/deep/ .mat-paginator-page-size {
+  display: none !important;
+}
+
+/deep/ .mat-table {
+  height: 300px;
+}

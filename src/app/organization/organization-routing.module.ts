@@ -16,9 +16,9 @@ const routes: Routes = Route.withShell([
     data: { title: extract('Organization')},
     children: [
       { path:'', redirectTo: 'department', pathMatch: 'full'},
-      { path:'department', component:DepartmentComponent }, 
-      { path:'edit-department/:id', component: EditDepartmentComponent},
-      //{ path:'edit-department/:id', component: EditDepartmentComponent},
+      { path:'department', component:DepartmentComponent, children:[  
+        { path:'edit-department/:id', component: EditDepartmentComponent, outlet:'edit-department-outlet'},
+      ]}, 
       { path:'location', component:LocationComponent},
 
     ]

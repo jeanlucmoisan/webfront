@@ -8,11 +8,9 @@ import { TranslateService } from '@ngx-translate/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
-//import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-//import 'rxjs/add/observable/filter';
 
 import { DepartmentService } from './department.service';
 import { Department } from './../../models/department.model';
@@ -30,6 +28,8 @@ export class DepartmentComponent implements OnInit {
   links: any[] = [];
   topDepartment:any = {};
   
+  editing:boolean = false;
+
   // table var
   @ViewChild('filter') filter:ElementRef;
   @ViewChild(MdPaginator) paginator: MdPaginator;
@@ -58,8 +58,8 @@ export class DepartmentComponent implements OnInit {
     }
     
   ngOnInit() {
-    //this.departmentDatabase = new DepartmentDatabase(this.departmentService);
-    //this.dataSource = new DepartmentDataSource(this.departmentDatabase);
+    this.editing = false;
+    
     const departmentDatabase:DepartmentDatabase = new DepartmentDatabase(this.departmentService);
     departmentDatabase.getDepartments()
       .subscribe(departments => {
@@ -74,7 +74,7 @@ export class DepartmentComponent implements OnInit {
       if (!this.dataSource) { return; }
       this.dataSource.filter = this.filter.nativeElement.value;
       this.paginator.pageIndex = 0;
-  });
+    });
 
     this.departmentService.getTopDepartment()
     .first()
@@ -89,11 +89,25 @@ export class DepartmentComponent implements OnInit {
     });
   }
 
-  editAndChangeTreeFocus(event:any) {
-    //this.router.navigate(['organization',{ outlets: { 'edit-department-outlet':['edit-department',event.row._key]}}]);
-    this.router.navigate(['../edit-department',event.row._key], { relativeTo: this.route});
-    console.log('rowClick event for '+JSON.stringify(event));
-    this.getDepartmentTreeByNode(event.row._key,'2');
+  editAndChangeTreeFocus(row:any) {
+    if (!this.editing) {
+      this.editing = true;
+      this.router.navigate([{ outlets: { 'edit-department-outlet':['edit-department',row._key]}}], { relativeTo: this.route });
+      console.log('rowClick event for '+JSON.stringify(row));
+      this.getDepartmentTreeByNode(row._key,'2');
+    }
+  }
+  
+  addNewDepartment() {
+    if (!this.editing) {
+      this.editing = true;
+      this.router.navigate([{ outlets: { 'edit-department-outlet':['edit-department','new']}}], { relativeTo: this.route });
+      console.log('department creation');
+    }
+  }
+
+  onBackFromEdit(event:Event) {
+    console.log(JSON.stringify(event));
   }
 
   getDepartmentTreeByNode(node:string,level:string) {
@@ -167,45 +181,27 @@ export class DepartmentDataSource extends DataSource<Department> {
   // Connect function called by the table to retrieve one stream containing the data to render.
   // dataChange is an observable from database collection
   connect(): Observable<Department[]> {
+    var previousFilter = '';
     const displayDataChanges = [
       this._departmentDatabase.dataChange,
       this._filterChange,
       this._paginator.page
     ];
 
-    // TO DO find a way to get page and update data stream like in
-    // https://stackoverflow.com/questions/45014257/how-to-use-md-table-with-services-in-angular-4
-//    Observable.merge(...displayDataChanges).subscribe((d) => {
-      //console.log(JSON.stringify(d));
-/*       this._departmentDatabase.getDepartments()
-      .map((departments)=> departments.filter((dept) => {
-        let searchStr = dept.name.toLowerCase();
-        return searchStr.indexOf(this.filter.toLowerCase()) != -1 ;
-      })).subscribe((departments)=>{
-        this.subject.next(departments);
-      }) */
-//    });
-
-
-    // init
-    /* if (!this.subject.isStopped)
-      this._departmentDatabase.getDepartments().subscribe((departments)=>{
-        this.length = departments.length;
-        this.subject.next(departments)
-      });
- */
     return Observable.merge(...displayDataChanges)                  // convert object to array with spread syntax
       .map(() => {                                                  // data sent to observables depend on event, rather change in data, click on page...
-      //const dataSlice = this._departmentDatabase.data.slice();      // data removed from viewed table
+      // data removed from viewed table
       const dataSlice = this._departmentDatabase.data.filter((dept) => {
         let searchStr = dept.name.toLowerCase();
         return searchStr.indexOf(this.filter.toLowerCase()) != -1 ;
       });
-      var startIndex = this._paginator.pageIndex * this._paginator.pageSize;
       this._paginator.length = dataSlice.length;
-      if (startIndex > dataSlice.length) {
+      var startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+      // re-init table if filter change
+      if (this.filter.toLowerCase() != previousFilter) {
         startIndex = 0;
-        this._paginator.pageIndex = 0;
+        this._paginator.pageIndex = 0;        
+        previousFilter = this.filter.toLowerCase();
       }
       return dataSlice.splice(startIndex, this._paginator.pageSize);
     });

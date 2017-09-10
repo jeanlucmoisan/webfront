@@ -1,12 +1,10 @@
 .addObject {
   position: absolute;
   right: 20px;
-  bottom: 10px;
 }
 
-.department-table {
-  width:98vw;
-  height: 450px;
+ngx-charts-directed-graph {
+  min-height: 350px;
 }
 
 /deep/ .mat-paginator-page-size {

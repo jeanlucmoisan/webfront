@@ -19,6 +19,12 @@ export class DepartmentService {
       .catch(() => Observable.of('Error, could not load departments :-('));
   }
 
+  getDepartment(key:string): Observable<Department> {
+    return this.http.get('/department/'+key, { cache: true })
+      .map((res: Response) => res.json())
+      .catch(() => Observable.of('Error, could not load departments :-('));
+  }
+
   getDepartmentTree(node:string,level:string): Observable<any> {
     return this.http.get('/department/tree/'+node+'/'+level, { cache: true })
     .map((res: Response) => res.json())

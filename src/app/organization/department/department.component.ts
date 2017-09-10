@@ -15,6 +15,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import { DepartmentService } from './department.service';
 import { Department } from './../../models/department.model';
 import { Link } from './../../models/link.model';
+import { EditDepartmentComponent } from './edit/edit-department.component';
 
 @Component({
   templateUrl: './department.component.html',
@@ -29,6 +30,7 @@ export class DepartmentComponent implements OnInit {
   topDepartment:any = {};
   
   editing:boolean = false;
+  editDepartment:any;
 
   // table var
   @ViewChild('filter') filter:ElementRef;
@@ -49,7 +51,6 @@ export class DepartmentComponent implements OnInit {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
   
-
   constructor(
     private departmentService: DepartmentService, 
     private translateService:TranslateService, 
@@ -59,7 +60,7 @@ export class DepartmentComponent implements OnInit {
     
   ngOnInit() {
     this.editing = false;
-    
+    this.editDepartment = {};
     const departmentDatabase:DepartmentDatabase = new DepartmentDatabase(this.departmentService);
     departmentDatabase.getDepartments()
       .subscribe(departments => {
@@ -92,7 +93,8 @@ export class DepartmentComponent implements OnInit {
   editAndChangeTreeFocus(row:any) {
     if (!this.editing) {
       this.editing = true;
-      this.router.navigate([{ outlets: { 'edit-department-outlet':['edit-department',row._key]}}], { relativeTo: this.route });
+      this.editDepartment = row;
+      //this.router.navigate([{ outlets: { 'edit-department-outlet':['edit-department',row._key]}}], { relativeTo: this.route });
       console.log('rowClick event for '+JSON.stringify(row));
       this.getDepartmentTreeByNode(row._key,'2');
     }
@@ -101,12 +103,13 @@ export class DepartmentComponent implements OnInit {
   addNewDepartment() {
     if (!this.editing) {
       this.editing = true;
-      this.router.navigate([{ outlets: { 'edit-department-outlet':['edit-department','new']}}], { relativeTo: this.route });
+      //this.router.navigate([{ outlets: { 'edit-department-outlet':['edit-department','new']}}], { relativeTo: this.route });
       console.log('department creation');
     }
   }
 
   onBackFromEdit(event:Event) {
+    this.editing = false;
     console.log(JSON.stringify(event));
   }
 

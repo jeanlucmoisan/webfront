@@ -25,7 +25,8 @@
             style="justify-content:center;">
       </md-paginator>
     </div>
-    <router-outlet fxFlex="0" name="edit-department-outlet" (onBackEvent)="backFromEdit($event)"></router-outlet>
+   <!--  <router-outlet fxFlex="0" name="edit-department-outlet"></router-outlet> -->
+    <edit-department fxFlex="50" [hidden]="!editing" [department]="editDepartment" (onBackEvent)="onBackFromEdit($event)"></edit-department>
   </div>
   <div fxLayout >
     <ngx-charts-directed-graph

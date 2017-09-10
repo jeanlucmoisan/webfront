@@ -1,7 +1,10 @@
-import { Component, OnInit, HostBinding, EventEmitter } from '@angular/core';
+//import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnChanges, EventEmitter, Input, SimpleChange } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { routerTransition } from '../../../shared/router.animations';
+import { FormControl } from '@angular/forms';
+
+//import { Router, ActivatedRoute } from '@angular/router';
+//import { routerTransition } from '../../../shared/router.animations';
 
 import { DepartmentService } from './../department.service';
 import { Department } from './../../../models/department.model';
@@ -11,30 +14,41 @@ import { Link } from './../../../models/link.model';
     selector:'edit-department',
     templateUrl: './edit-department.component.html',
     styleUrls: ['./edit-department.component.scss'],
-    animations: [routerTransition],
+    //animations: [routerTransition],
     outputs: ['onBackEvent']
 })
 
-export class EditDepartmentComponent implements OnInit {
+export class EditDepartmentComponent implements OnChanges {
 
-    @HostBinding('@routerTransition')
+    @Input() department:any;
+    //@HostBinding('@routerTransition')
 
-    public get childRouteTransition() { return this.route.snapshot;}
+    //public get childRouteTransition() { return this.route.snapshot;}
 
     public onBackEvent = new EventEmitter();
+    departmentControl: FormControl = new FormControl();
+    //departmentModel:Department;
 
-    constructor(private router:Router, private route:ActivatedRoute) {}
+    //constructor(private router:Router, private route:ActivatedRoute) {}
+    constructor(private departmentService:DepartmentService) {}
 
-    ngOnInit() {
-        console.log('Entering edit-department');
-        this.route.params.subscribe((params:{id:string}) => {
-        });
+    //ngOnInit() {
+        //console.log('Entering edit-department');
+        //this.route.params.subscribe((params:{id:string}) => {
+        //});
+    //}
+
+    ngOnChanges(changes: {[propKey: string]:SimpleChange}) {
+        console.log('Department '+JSON.stringify(changes));
+//        const department = changes.currentValue;
+//        if (department.currentValue('_key'))
+//            this.departmentService.getDepartment(department['_key']).subscribe((department)=>this.departmentModel = department);
     }
 
     goBackToParent():void {
         this.onBackEvent.emit({
             value: true
         });
-        this.router.navigate(['/organization/department']);
+        //this.router.navigate(['/organization/department']);
     }
 }

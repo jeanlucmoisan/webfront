@@ -1,5 +1,10 @@
 <div fxFlex="50">
-    ffdsfs
-    sfsfd
-    <button md-button (click)="goBackToParent()">back</button>
+    <form class="departmentForm">
+        <label translate>DEPARTMENT.formTitle</label>
+        <md-form-field>
+            <!-- <input type="text" placeholder="{{'DEPARTMENT.department' | translate}}" mdInput [formControl]="departmentControl" required [(ngModel)]="department.name" name="name"> -->
+            <input type="text" placeholder="{{'DEPARTMENT.department' | translate}}" mdInput [formControl]="departmentControl" required name="name">
+        </md-form-field>
+        <button md-button (click)="goBackToParent()">back</button>
+    </form>
 </div>

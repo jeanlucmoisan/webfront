@@ -31,6 +31,8 @@
   },
   "DEPARTMENT":{
     "pagetitle":"Services",
+    "formTitleCreate":"Créer un nouveau service",
+    "formTitleEdit":"Modifier un service",
     "departments":"services",
     "Edit department":"Modifier un service",
     "departmentNameLabel":"Nom du service",

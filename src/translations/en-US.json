@@ -31,6 +31,8 @@
   },
   "DEPARTMENT":{
     "pagetitle":"Departments",
+    "formTitleCreate":"Create a new department",
+    "formTitleEdit":"Edit a department",
     "departments":"departments",
     "Edit department":"Edit department",
     "departmentNameLabel":"Department name",

@@ -1,10 +1,17 @@
-<div fxFlex="50">
-    <form class="departmentForm">
-        <label translate>DEPARTMENT.formTitle</label>
-        <md-form-field>
-            <!-- <input type="text" placeholder="{{'DEPARTMENT.department' | translate}}" mdInput [formControl]="departmentControl" required [(ngModel)]="department.name" name="name"> -->
-            <input type="text" placeholder="{{'DEPARTMENT.department' | translate}}" mdInput [formControl]="departmentControl" required name="name">
-        </md-form-field>
-        <button md-button (click)="goBackToParent()">back</button>
-    </form>
-</div>
+<md-card>
+    <md-card-header class="edit-department-card-header">
+        <md-card-title>{{formTitle}}</md-card-title>
+    </md-card-header>
+    <md-card-content>
+        <form fxLayout="column" class="departmentForm">
+            <md-form-field fxFlex>
+                <!-- <input type="text" placeholder="{{'DEPARTMENT.department' | translate}}" mdInput [formControl]="departmentControl" required [(ngModel)]="department.name" name="name"> -->
+                <input type="text" placeholder="{{'DEPARTMENT.departmentNamePH' | translate}}" mdInput [formControl]="departmentControl" required name="name">
+            </md-form-field>
+        </form>
+    </md-card-content>
+    <md-card-actions>
+        <button md-button (click)="goBackToParent()">{{'GLOBAL.CANCEL' | translate }}</button>
+        <button md-button color="primary" (click)="save()">{{'GLOBAL.SAVE'|translate}}</button>
+    </md-card-actions>
+</md-card>

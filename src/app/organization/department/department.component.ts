@@ -103,6 +103,7 @@ export class DepartmentComponent implements OnInit {
   addNewDepartment() {
     if (!this.editing) {
       this.editing = true;
+      this.editDepartment = {};
       //this.router.navigate([{ outlets: { 'edit-department-outlet':['edit-department','new']}}], { relativeTo: this.route });
       console.log('department creation');
     }
@@ -110,7 +111,6 @@ export class DepartmentComponent implements OnInit {
 
   onBackFromEdit(event:Event) {
     this.editing = false;
-    console.log(JSON.stringify(event));
   }
 
   getDepartmentTreeByNode(node:string,level:string) {

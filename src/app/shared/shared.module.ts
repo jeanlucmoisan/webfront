@@ -6,7 +6,7 @@ import { FlexLayoutModule, } from '@angular/flex-layout';
 import {
   MdButtonModule, MdCardModule, MdIconModule,
   MdListModule, MdMenuModule, MdTooltipModule,
-  MdSlideToggleModule, MdInputModule, MdCheckboxModule,
+  MdSlideToggleModule, MdInputModule, MdAutocompleteModule, MdCheckboxModule,
   MdToolbarModule, MdSnackBarModule, MdSidenavModule,
   MdTabsModule, MdSelectModule, MdTableModule, MdPaginatorModule
 } from '@angular/material';
@@ -26,7 +26,7 @@ const ANGULAR_MODULES: any[] = [
 const MATERIAL_MODULES: any[] = [
   MdButtonModule, MdCardModule, MdIconModule,
   MdListModule, MdMenuModule, MdTooltipModule,
-  MdSlideToggleModule, MdInputModule, MdCheckboxModule,
+  MdSlideToggleModule, MdInputModule, MdAutocompleteModule, MdCheckboxModule,
   MdToolbarModule, MdSnackBarModule, MdSidenavModule,
   MdTabsModule, MdSelectModule, MdTableModule, CdkTableModule, MdPaginatorModule
 ];

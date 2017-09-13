@@ -1,13 +1,20 @@
-<md-card>
-    <md-card-header class="edit-department-card-header">
+<md-card class="departmentForm">
+    <md-toolbar class="edit-department-card-header" color="primary">
         <md-card-title>{{formTitle}}</md-card-title>
-    </md-card-header>
-    <md-card-content>
-        <form fxLayout="column" class="departmentForm">
+    </md-toolbar>
+    <md-card-content class="edit-department-card-content">
+        <form fxLayout="column">
             <md-form-field fxFlex>
-                <!-- <input type="text" placeholder="{{'DEPARTMENT.department' | translate}}" mdInput [formControl]="departmentControl" required [(ngModel)]="department.name" name="name"> -->
-                <input type="text" placeholder="{{'DEPARTMENT.departmentNamePH' | translate}}" mdInput [formControl]="departmentControl" required name="name">
+                <input type="text" placeholder="{{'DEPARTMENT.departmentNamePH' | translate}}" mdInput [formControl]="departmentControl" required [(ngModel)]="editDepartmentModel.name" name="name">
             </md-form-field>
+            <md-form-field fxFlex>
+                <input type="text" placeholder="{{'DEPARTMENT.departmentAttachedToLabel' | translate}}" mdInput [formControl]="departmentControl" required [(ngModel)]="editDepartmentModel.attachedTo" name="attachedTo" [mdAutocomplete]="auto">
+            </md-form-field>
+            <md-autocomplete #auto="mdAutocomplete">
+                <md-option *ngFor="let option of options" [value]="option">
+                    {{option}}
+                </md-option>
+            </md-autocomplete>
         </form>
     </md-card-content>
     <md-card-actions>

@@ -28,10 +28,11 @@ export class EditDepartmentComponent implements OnChanges {
     public onBackEvent = new EventEmitter();
     departmentControl: FormControl = new FormControl();
     formTitle = 'Department';
-    departmentModel:Department;
+    editDepartmentModel:EditDepartmentModel = new EditDepartmentModel('','','');
 
     //constructor(private router:Router, private route:ActivatedRoute) {}
-    constructor(private departmentService:DepartmentService, private translateService:TranslateService) {}
+    constructor(private departmentService:DepartmentService, private translateService:TranslateService) {
+    }
     
     //ngOnInit() {
         //console.log('Entering edit-department');
@@ -49,8 +50,8 @@ export class EditDepartmentComponent implements OnChanges {
         if (department.currentValue.hasOwnProperty('_key')) {
             console.log('Edit-department ngOnChanges - Edited Department: '+JSON.stringify(department.currentValue));
             this.departmentService.getDepartment(department.currentValue['_key']).subscribe((department)=> {
-                this.departmentModel = department
-                console.log('Edit-department ngOnChanges - After get Department: '+JSON.stringify(this.departmentModel));
+                this.editDepartmentModel = new EditDepartmentModel(department._id,department.name,'');
+                console.log('Edit-department ngOnChanges - After get Department: '+JSON.stringify(this.editDepartmentModel));
             });
         }
     }
@@ -60,5 +61,17 @@ export class EditDepartmentComponent implements OnChanges {
             value: true
         });
         //this.router.navigate(['/organization/department']);
+    }
+}
+
+export class EditDepartmentModel {
+    id: string;
+    name: string;
+    attachedTo: string;
+
+    constructor($id:string, $name:string, $attachedTo:string) {
+        this.id = $id;
+        this.name = $name;
+        this.attachedTo = $attachedTo;
     }
 }

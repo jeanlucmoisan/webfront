@@ -2,6 +2,9 @@
 import { Component, OnChanges, EventEmitter, Input, SimpleChange } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/map';
 
 //import { Router, ActivatedRoute } from '@angular/router';
 //import { routerTransition } from '../../../shared/router.animations';
@@ -21,6 +24,7 @@ import { Link } from './../../../models/link.model';
 export class EditDepartmentComponent implements OnChanges {
 
     @Input() department:any;
+    @Input() departmentList:EditDepartmentModel[];
     //@HostBinding('@routerTransition')
 
     //public get childRouteTransition() { return this.route.snapshot;}
@@ -29,6 +33,8 @@ export class EditDepartmentComponent implements OnChanges {
     departmentControl: FormControl = new FormControl();
     formTitle = 'Department';
     editDepartmentModel:EditDepartmentModel = new EditDepartmentModel('','','');
+    //options = [new EditDepartmentModel('1','one','xxx'),new EditDepartmentModel('2','two','yyy')];
+    filteredOptions: Observable<EditDepartmentModel[]>;
 
     //constructor(private router:Router, private route:ActivatedRoute) {}
     constructor(private departmentService:DepartmentService, private translateService:TranslateService) {
@@ -41,6 +47,10 @@ export class EditDepartmentComponent implements OnChanges {
     //}
 
     ngOnChanges(changes: {[propKey: string]:SimpleChange}) {
+        this.filteredOptions = this.departmentControl.valueChanges
+            .startWith(null)
+            .map(editDepartmentModel => editDepartmentModel && typeof editDepartmentModel === 'object' ? editDepartmentModel.name : editDepartmentModel)
+            .map(name => name ? this.filter(name) : this.departmentList.slice());
         const department = changes.department;
         if (!department) {
             this.formTitle = this.translateService.instant('DEPARTMENT.formTitleCreate');
@@ -49,9 +59,10 @@ export class EditDepartmentComponent implements OnChanges {
         }
         if (department.currentValue.hasOwnProperty('_key')) {
             console.log('Edit-department ngOnChanges - Edited Department: '+JSON.stringify(department.currentValue));
-            this.departmentService.getDepartment(department.currentValue['_key']).subscribe((department)=> {
-                this.editDepartmentModel = new EditDepartmentModel(department._id,department.name,'');
-                console.log('Edit-department ngOnChanges - After get Department: '+JSON.stringify(this.editDepartmentModel));
+            this.departmentService.getDepartment('id',department.currentValue['_key']).subscribe((department)=> {
+                console.log('department received from API '+JSON.stringify(department));
+                this.editDepartmentModel = <EditDepartmentModel>department[0];
+                console.log('Edit-department ngOnChanges - After get Department: '+ JSON.stringify(this.editDepartmentModel));
             });
         }
     }
@@ -62,15 +73,19 @@ export class EditDepartmentComponent implements OnChanges {
         });
         //this.router.navigate(['/organization/department']);
     }
+
+    filter(name:string): EditDepartmentModel[] {
+        return this.departmentList.filter(option => option.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+    }
 }
 
 export class EditDepartmentModel {
-    id: string;
+    _id: string;
     name: string;
     attachedTo: string;
 
     constructor($id:string, $name:string, $attachedTo:string) {
-        this.id = $id;
+        this._id = $id;
         this.name = $name;
         this.attachedTo = $attachedTo;
     }

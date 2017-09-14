@@ -19,8 +19,8 @@ export class DepartmentService {
       .catch(() => Observable.of('Error, could not load departments :-('));
   }
 
-  getDepartment(key:string): Observable<Department> {
-    return this.http.get('/department/'+key, { cache: true })
+  getDepartment(property:string,key:string): Observable<Department> {
+    return this.http.get('/department/property/'+property+'/'+key, { cache: true })
       .map((res: Response) => res.json())
       .catch(() => Observable.of('Error, could not load departments :-('));
   }

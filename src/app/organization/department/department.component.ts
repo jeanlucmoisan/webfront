@@ -31,6 +31,7 @@ export class DepartmentComponent implements OnInit {
   
   editing:boolean = false;
   editDepartment:any;
+  departmentList: any[] = [];
 
   // table var
   @ViewChild('filter') filter:ElementRef;
@@ -66,6 +67,10 @@ export class DepartmentComponent implements OnInit {
       .subscribe(departments => {
         this.dataSource = new DepartmentDataSource(departmentDatabase, this.paginator);
         this.dataLength = departments.length;
+        for (let i=0;i<departments.length;i++) {
+          // switch from key to id format for dropdown selection of department attach
+          this.departmentList.push({id:'department/'+departments[i]._key,name:departments[i].name});
+        }
       })
 
     Observable.fromEvent(this.filter.nativeElement, 'keyup')
@@ -119,6 +124,7 @@ export class DepartmentComponent implements OnInit {
       this.nodes = [];
       for (var i=0;i<response.vertices.length;i++) {
         var node = {'id':'','label':''};
+        // directed-graph don't support '-' char
         node.id = response.vertices[i]._key.replace(/[^\w]*/g, '');
         node.label = response.vertices[i].name;
         this.nodes.push(node);

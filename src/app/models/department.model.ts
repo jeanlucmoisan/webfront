@@ -11,8 +11,9 @@ export class Department {
     public manager: Employee;
 	public addressID: string;
 	public topDepartment: string;
+	public attachedTo: string;
 
-	constructor(id: string, key: string, rev: string, $tenant: string, $name: string, $collaborators: Employee[], $manager: Employee, $addressID: string, $topDepartment:string) {
+	constructor(id: string, key: string, rev: string, $tenant: string, $name: string, $collaborators: Employee[], $manager: Employee, $addressID: string, $topDepartment:string, $attachedTo:string) {
 		this._id = id;
 		this._key = key;
 		this._rev = rev;
@@ -22,6 +23,7 @@ export class Department {
 		this.manager = $manager;
 		this.addressID = $addressID;
 		this.topDepartment = $topDepartment;
+		this.attachedTo = $attachedTo;
 	}
 
 }

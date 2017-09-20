@@ -8,13 +8,10 @@
                 <input type="text" placeholder="{{'DEPARTMENT.departmentNamePH' | translate}}" mdInput [formControl]="departmentControl" required [(ngModel)]="editDepartmentModel.name" name="name">
             </md-form-field>
             <md-form-field fxFlex>
-                <input type="text" placeholder="{{'DEPARTMENT.departmentAttachedToLabel' | translate}}" mdInput [formControl]="departmentControl" required [(ngModel)]="editDepartmentModel.attachedTo" name="attachedTo" [mdAutocomplete]="auto">s
+                <input type="text" placeholder="{{'DEPARTMENT.departmentAttachedToLabel' | translate}}" mdInput [formControl]="attachedToControl" required [(ngModel)]="attachedToDepartment.name" name="attachedTo" [mdAutocomplete]="auto" >
             </md-form-field>
             <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn">
-                <!-- <md-option *ngFor="let department of departmentArray" [value]="attachedTo">
-                    {{department.name}}
-                </md-option> -->
-                <md-option *ngFor="let option of filteredOptions | async" [value]="option.id">
+                <md-option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange)="selectedParent(option)">
                     {{option.name}}
                 </md-option>
             </md-autocomplete>

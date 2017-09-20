@@ -14,6 +14,7 @@
 // Colors
 //
 // Grayscale and brand colors for use across Bootstrap.
+@import '~@angular/material/theming';
 
 $gray-dark:                 #373a3c;
 $gray:                      #55595c;
@@ -21,12 +22,16 @@ $gray-light:                #818a91;
 $gray-lighter:              #eceeef;
 $gray-lightest:             #f7f7f9;
 
-$brand-primary:             darken(#428bca, 6.5%);
+$brand-primary:             #428bca;
 $brand-success:             #5cb85c;
 $brand-info:                #5bc0de;
 $brand-warning:             #f0ad4e;
 $brand-danger:              #d9534f;
 $brand-inverse:             $gray-dark;
+
+$primary: mat-palette($mat-light-blue, 600);
+$accent:  mat-palette($mat-blue-grey, 600, A100, A400);
+$warn:    mat-palette($mat-deep-orange, 400);
 
 // Use Bootstrap defaults for other variables, imported here so we can access all app variables in one place when used
 // in components.

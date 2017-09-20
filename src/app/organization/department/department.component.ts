@@ -68,8 +68,8 @@ export class DepartmentComponent implements OnInit {
         this.dataSource = new DepartmentDataSource(departmentDatabase, this.paginator);
         this.dataLength = departments.length;
         for (let i=0;i<departments.length;i++) {
-          // switch from key to id format for dropdown selection of department attach
-          this.departmentList.push({id:'department/'+departments[i]._key,name:departments[i].name});
+          // switch from key to id format for dropdown selection of department attach. id must be called the same as in editDepartmentModel for autocomplete
+          this.departmentList.push({_id:'department/'+departments[i]._key,name:departments[i].name});
         }
       })
 

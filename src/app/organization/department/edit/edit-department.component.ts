@@ -31,8 +31,10 @@ export class EditDepartmentComponent implements OnChanges {
 
     public onBackEvent = new EventEmitter();
     departmentControl: FormControl = new FormControl();
+    attachedToControl: FormControl = new FormControl();
     formTitle = 'Department';
     editDepartmentModel:EditDepartmentModel = new EditDepartmentModel('','','');
+    attachedToDepartment:EditDepartmentModel = new EditDepartmentModel('','','');
     //options = [new EditDepartmentModel('1','one','xxx'),new EditDepartmentModel('2','two','yyy')];
     filteredOptions: Observable<EditDepartmentModel[]>;
 
@@ -47,9 +49,9 @@ export class EditDepartmentComponent implements OnChanges {
     //}
 
     ngOnChanges(changes: {[propKey: string]:SimpleChange}) {
-        this.filteredOptions = this.departmentControl.valueChanges
+        this.filteredOptions = this.attachedToControl.valueChanges
             .startWith(null)
-            .map(editDepartmentModel => editDepartmentModel && typeof editDepartmentModel === 'object' ? editDepartmentModel.name : editDepartmentModel)
+            .map(attachedToDepartment => attachedToDepartment && typeof attachedToDepartment === 'object' ? attachedToDepartment.name : attachedToDepartment)
             .map(name => name ? this.filter(name) : this.departmentList.slice());
         const department = changes.department;
         if (!department) {
@@ -59,23 +61,41 @@ export class EditDepartmentComponent implements OnChanges {
         }
         if (department.currentValue.hasOwnProperty('_key')) {
             console.log('Edit-department ngOnChanges - Edited Department: '+JSON.stringify(department.currentValue));
-            this.departmentService.getDepartment('id',department.currentValue['_key']).subscribe((department)=> {
-                console.log('department received from API '+JSON.stringify(department));
-                this.editDepartmentModel = <EditDepartmentModel>department[0];
+            this.departmentService.getDepartment('id',department.currentValue['_key']).subscribe((departments)=> {
+                console.log('department received from API '+JSON.stringify(departments));
+                this.editDepartmentModel = <EditDepartmentModel>departments[0];
+                for (let i=0;i<this.departmentList.length;i++) {
+                    if (this.departmentList[i]._id === this.editDepartmentModel.attachedTo) 
+                        // kind of deep copy
+                        this.attachedToDepartment = new EditDepartmentModel(this.departmentList[i]._id,this.departmentList[i].name,'');
+                }
                 console.log('Edit-department ngOnChanges - After get Department: '+ JSON.stringify(this.editDepartmentModel));
             });
         }
     }
 
-    goBackToParent():void {
+    private goBackToParent():void {
         this.onBackEvent.emit({
             value: true
         });
         //this.router.navigate(['/organization/department']);
     }
 
-    filter(name:string): EditDepartmentModel[] {
+    private filter(name:string): EditDepartmentModel[] {
         return this.departmentList.filter(option => option.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+    }
+
+    private displayFn(value: any): string {
+        return value && typeof value === 'object' ? value.name : value;
+    }
+
+    private selectedParent(department:EditDepartmentModel) {
+        this.editDepartmentModel.attachedTo = department._id;
+        console.log('Edit-department attachedTo updated with '+ department._id);
+    }
+
+    private save() {
+        console.log('Edit-department save clicked');
     }
 }
 
